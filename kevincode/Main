@@ -1,95 +1,52 @@
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by FernFlower decompiler)
-//
-
 package com.example.j_25;
 
-import java.io.IOException;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
-import javafx.geometry.Insets;
-import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Main extends Application {
-    public void start(Stage stage) throws IOException {
-        Stage waiterStage = new Stage();
-        waiterStage.initModality(Modality.APPLICATION_MODAL);
+
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        // Create waiter selection UI components
         Label waiterLabel = new Label("Select Your Waiter:");
         Button waiter1 = new Button("Waiter 1");
         Button waiter2 = new Button("Waiter 2");
         Button waiter3 = new Button("Waiter 3");
-        waiter1.setOnAction((e) -> {
-            waiterStage.close();
-            VBox waiterLayout = new VBox((double)10.0F, new Node[]{waiterLabel, waiter1, waiter2, waiter3});
-            waiterLayout.setAlignment(Pos.CENTER);
-            waiterLayout.setPadding(new Insets((double)20.0F));
-            waiterStage.setScene(new Scene(waiterLayout, (double)300.0F, (double)200.0F));
-            waiterStage.showAndWait();
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("waiter1.fxml"));
-            Scene scene = null;
 
-            try {
-                scene = new Scene((Parent)fxmlLoader.load(), (double)550.0F, (double)250.0F);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
+        // Set actions for each waiter button
+        waiter1.setOnAction(e -> loadWaiterScene(primaryStage, "waiter1.fxml"));
+        waiter2.setOnAction(e -> loadWaiterScene(primaryStage, "waiter2.fxml"));
+        waiter3.setOnAction(e -> loadWaiterScene(primaryStage, "waiter3.fxml"));
 
-            stage.setTitle("J's");
-            stage.setScene(scene);
+        // Layout setup
+        VBox waiterLayout = new VBox(10, waiterLabel, waiter1, waiter2, waiter3);
+        waiterLayout.setAlignment(javafx.geometry.Pos.CENTER);
+        waiterLayout.setPadding(new javafx.geometry.Insets(20));
+
+        // Set primary stage properties
+        primaryStage.setTitle("J's Restaurant");
+        primaryStage.setScene(new Scene(waiterLayout, 300, 200));
+        primaryStage.show();
+    }
+
+    private void loadWaiterScene(Stage stage, String fxmlFile) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlFile));
+            Parent root = loader.load();
+            stage.setScene(new Scene(root, 550, 250));
             stage.show();
-        });
-        waiter2.setOnAction((e) -> {
-            waiterStage.close();
-            VBox waiterLayout = new VBox((double)10.0F, new Node[]{waiterLabel, waiter1, waiter2, waiter3});
-            waiterLayout.setAlignment(Pos.CENTER);
-            waiterLayout.setPadding(new Insets((double)20.0F));
-            waiterStage.setScene(new Scene(waiterLayout, (double)300.0F, (double)200.0F));
-            waiterStage.showAndWait();
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("waiter2.fxml"));
-            Scene scene = null;
-
-            try {
-                scene = new Scene((Parent)fxmlLoader.load(), (double)550.0F, (double)250.0F);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
-            stage.setTitle("J's");
-            stage.setScene(scene);
-            stage.show();
-        });
-        waiter3.setOnAction((e) -> {
-            waiterStage.close();
-            VBox waiterLayout = new VBox((double)10.0F, new Node[]{waiterLabel, waiter1, waiter2, waiter3});
-            waiterLayout.setAlignment(Pos.CENTER);
-            waiterLayout.setPadding(new Insets((double)20.0F));
-            waiterStage.setScene(new Scene(waiterLayout, (double)300.0F, (double)200.0F));
-            waiterStage.showAndWait();
-            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("waiter3.fxml"));
-            Scene scene = null;
-
-            try {
-                scene = new Scene((Parent)fxmlLoader.load(), (double)550.0F, (double)250.0F);
-            } catch (IOException ex) {
-                throw new RuntimeException(ex);
-            }
-
-            stage.setTitle("J's");
-            stage.setScene(scene);
-            stage.show();
-        });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public static void main(String[] args) {
-        launch(new String[0]);
+        launch(args);
     }
 }
