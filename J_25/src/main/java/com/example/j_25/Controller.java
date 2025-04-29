@@ -18,27 +18,138 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class Controller {
+    private Button selectedButton;
+    private boolean guestSelected = false;
+
     @FXML
-    private void TableGuests() {
+    private void TableGuests(javafx.event.ActionEvent event) {
+        selectedButton = (Button) event.getSource();
+        String currentColor = getColor(selectedButton);
+
+        if (currentColor.equals("green")) {
+            handleNewTable();
+        } else if (currentColor.equals("yellow")) {
+            handleExistingTable();
+        } else if (currentColor.equals("red")) {
+            handleDirtyTable();
+        }
+    }
+
+    private String getColor(Button button) {
+        String style = button.getStyle();
+        if (style.contains("green")) return "green";
+        if (style.contains("yellow")) return "yellow";
+        if (style.contains("red")) return "red";
+        return "unknown";
+    }
+
+    private void handleNewTable() {
+        guestSelected = false;
+
         Stage popup = new Stage();
         popup.initModality(Modality.APPLICATION_MODAL);
+
         Label message = new Label("Guests!");
-        Button One = new Button("1");
+
+        Button one = new Button("1");
         Button two = new Button("2");
         Button three = new Button("3");
         Button four = new Button("4");
-        Button close = new Button("close");
-        close.setOnAction((e) -> popup.close());
-        VBox layout = new VBox((double)10.0F, new Node[]{message, One, two, three, four, close});
-        One.setOnAction((o) -> this.Menu());
-        two.setOnAction((o) -> this.Menu());
-        three.setOnAction((o) -> this.Menu());
-        four.setOnAction((o) -> this.Menu());
+        Button close = new Button("Close");
+
+        one.setOnAction(e -> {
+            selectedButton.setStyle("-fx-background-color: yellow;");
+            guestSelected = true;
+            popup.close();
+        });
+        two.setOnAction(e -> {
+            selectedButton.setStyle("-fx-background-color: yellow;");
+            guestSelected = true;
+            popup.close();
+        });
+        three.setOnAction(e -> {
+            selectedButton.setStyle("-fx-background-color: yellow;");
+            guestSelected = true;
+            popup.close();
+        });
+        four.setOnAction(e -> {
+            selectedButton.setStyle("-fx-background-color: yellow;");
+            guestSelected = true;
+            popup.close();
+        });
+
+        close.setOnAction(e -> popup.close());
+
+        VBox layout = new VBox(10, message, one, two, three, four, close);
         layout.setAlignment(Pos.CENTER);
-        layout.setPadding(new Insets((double)20.0F));
-        popup.setScene(new Scene(layout, (double)500.0F, (double)300.0F));
+        layout.setPadding(new Insets(20));
+
+        Scene popupScene = new Scene(layout, 500, 300);
+        popup.setScene(popupScene);
+
+        popup.setOnHidden(e -> {
+            if (guestSelected) {
+                Menu();
+            }
+        });
+
         popup.showAndWait();
     }
+
+    private void handleExistingTable() {
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+
+        Label message = new Label("This table is occupied.");
+
+        Button order = new Button("Put in Order");
+        Button dirty = new Button("Mark as Dirty");
+        Button close = new Button("Cancel");
+
+        order.setOnAction(e -> {
+            popup.close();
+            Menu();
+        });
+
+        dirty.setOnAction(e -> {
+            selectedButton.setStyle("-fx-background-color: red;");
+            popup.close();
+        });
+
+        close.setOnAction(e -> popup.close());
+
+        VBox layout = new VBox(10, message, order, dirty, close);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+
+        popup.setScene(new Scene(layout, 400, 200));
+        popup.showAndWait();
+    }
+
+    private void handleDirtyTable() {
+        Stage popup = new Stage();
+        popup.initModality(Modality.APPLICATION_MODAL);
+
+        Label message = new Label("This table is dirty.");
+
+        Button clean = new Button("Mark as Clean");
+        Button cancel = new Button("Cancel");
+
+        clean.setOnAction(e -> {
+            selectedButton.setStyle("-fx-background-color: green;");
+            popup.close();
+        });
+
+        cancel.setOnAction(e -> popup.close());
+
+        VBox layout = new VBox(10, message, clean, cancel);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(20));
+
+        popup.setScene(new Scene(layout, 400, 200));
+        popup.showAndWait();
+    }
+
 
     private void Menu() {
         Stage food = new Stage();
