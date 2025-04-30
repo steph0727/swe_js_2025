@@ -15,9 +15,14 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
         // Create waiter selection UI components
         Label waiterLabel = new Label("Select Your Waiter:");
+        setFontStyle(waiterLabel);
+
         Button waiter1 = new Button("Waiter 1");
+        setFontStyle(waiter1);
         Button waiter2 = new Button("Waiter 2");
+        setFontStyle(waiter2);
         Button waiter3 = new Button("Waiter 3");
+        setFontStyle(waiter3);
 
         // Set actions for each waiter button
         waiter1.setOnAction(e -> loadWaiterScene(primaryStage, "waiter1.fxml"));
@@ -33,6 +38,15 @@ public class Main extends Application {
         primaryStage.setTitle("J's Restaurant");
         primaryStage.setScene(new Scene(waiterLayout, 300, 200));
         primaryStage.show();
+    }
+
+    //Method for font style
+    private void setFontStyle(javafx.scene.Node node) {
+        if (node instanceof Label) {
+            ((Label) node).setStyle("-fx-font-size: 18px; -fx-font-weight: bold;");
+        } else if (node instanceof  Button) {
+            ((Button) node).setStyle("-fx-font-size: 14px; -fx-font-weight: normal;");
+        }
     }
 
     private void loadWaiterScene(Stage stage, String fxmlFile) {
