@@ -20,6 +20,6 @@ public class Order {
 
     @Override
     public String toString() {
-        return "Order from " + tableId + " at " + timestamp + ": " + items;
+        return "Order from table " + tableId + " at " + timestamp + ": " + items;
     }
 }
